@@ -1,10 +1,13 @@
+# Modified by Einar J.M. Baumann (2018) <einar.baumann@gmail.com>
+# Disabled testing and added install target
+
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(RpolyPlusPlus C CXX)
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR})
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # By default, the unit tests will be built.
-OPTION(BUILD_TESTING "Enable testing" ON)
+OPTION(BUILD_TESTING "Enable testing" OFF)
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -78,3 +81,13 @@ IF (BUILD_TESTING)
 
   GTEST(find_polynomial_roots_jenkins_traub)
 ENDIF (BUILD_TESTING)
+
+# --- Add install target ---
+SET(RPPP_INTERFACES
+    src/find_polynomial_roots_jenkins_traub.h
+    src/polynomial.h
+)
+set_target_properties(rpoly_plus_plus PROPERTIES PUBLIC_HEADER "${RPPP_INTERFACES}")
+install(TARGETS rpoly_plus_plus DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/RpolyPlusPlus)
+
