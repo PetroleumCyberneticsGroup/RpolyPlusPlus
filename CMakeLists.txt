@@ -15,10 +15,19 @@ SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # Set Minimum Eigen version and find the installed package.
 SET(MIN_EIGEN_VERSION 3.2.0)
-FIND_PACKAGE(Eigen ${MIN_EIGEN_VERSION} REQUIRED)
-IF (EIGEN_FOUND)
-  MESSAGE("-- Found Eigen version ${EIGEN_VERSION}: ${EIGEN_INCLUDE_DIRS}")
-ENDIF (EIGEN_FOUND)
+
+IF (USE_LOCAL_EIGEN3)
+    message(STATUS "Using local Eigen3 in RpolyPlusPlus build.")
+    set(EIGEN3_INCLUDE_DIR "${EIGEN3_ROOT}")
+    message(STATUS "${EIGEN3_INCLUDE_DIR}")
+    INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
+ELSE()
+    FIND_PACKAGE(Eigen3 ${MIN_EIGEN_VERSION} REQUIRED)
+    IF (EIGEN3_FOUND)
+        MESSAGE(STATUS "Found Eigen version ${EIGEN3_VERSION}: ${EIGEN3_INCLUDE_DIR}")
+    ENDIF (EIGEN3_FOUND)
+ENDIF(USE_LOCAL_EIGEN3)
+
 
 # Use a larger inlining threshold for Clang, since it hobbles Eigen,
 # resulting in an unreasonably slow version of the blas routines. The
@@ -49,7 +58,7 @@ ENDIF ()
 # Note that this is *not* propagated to clients, ie CERES_INCLUDE_DIRS
 # used by clients after find_package(Ceres) does not identify Eigen as
 # as system headers.
-INCLUDE_DIRECTORIES(SYSTEM ${EIGEN_INCLUDE_DIRS})
+#INCLUDE_DIRECTORIES(SYSTEM ${EIGEN3_INCLUDE_DIRS})
 
 SET(RPOLY_PLUS_PLUS_SRCS
   src/polynomial.cc
