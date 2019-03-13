@@ -73,23 +73,23 @@ IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
   MESSAGE("\n=================================================================================")
 ENDIF (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-IF (BUILD_TESTING)
-  ADD_SUBDIRECTORY(gtest)
-  INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/gtest/include")
-  MACRO (GTEST FILENAME)
-    STRING(REPLACE "/" ";" TEST_NAME_LIST ${FILENAME})
-    LIST(REVERSE TEST_NAME_LIST)
-    LIST(GET TEST_NAME_LIST 0 TEST_NAME)
-    ADD_EXECUTABLE(${TEST_NAME}_test test/test_main.cc test/${FILENAME}_test.cc)
-    TARGET_LINK_LIBRARIES(${TEST_NAME}_test
-      gtest
-      rpoly_plus_plus)
-    ADD_TEST(NAME ${TEST_NAME}_test
-      COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}_test)
-  ENDMACRO (GTEST)
+#IF (BUILD_TESTING)
+  #ADD_SUBDIRECTORY(gtest)
+  #INCLUDE_DIRECTORIES("${CMAKE_SOURCE_DIR}/gtest/include")
+  #MACRO (GTEST FILENAME)
+    #STRING(REPLACE "/" ";" TEST_NAME_LIST ${FILENAME})
+    #LIST(REVERSE TEST_NAME_LIST)
+    #LIST(GET TEST_NAME_LIST 0 TEST_NAME)
+    #ADD_EXECUTABLE(${TEST_NAME}_test test/test_main.cc test/${FILENAME}_test.cc)
+    #TARGET_LINK_LIBRARIES(${TEST_NAME}_test
+      #gtest
+      #rpoly_plus_plus)
+    #ADD_TEST(NAME ${TEST_NAME}_test
+      #COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${TEST_NAME}_test)
+  #ENDMACRO (GTEST)
 
-  GTEST(find_polynomial_roots_jenkins_traub)
-ENDIF (BUILD_TESTING)
+  #GTEST(find_polynomial_roots_jenkins_traub)
+#ENDIF (BUILD_TESTING)
 
 # --- Add install target ---
 SET(RPPP_INTERFACES
